@@ -6,9 +6,9 @@ build-backend = "setuptools.build_meta"
 name = "anquanssl"
 version = "0.0.1"
 authors = [
-  { name="Example Author", email="author@example.com" },
+  { name="jellnicy jin", email="<11457034+jellnicy@users.noreply.github.com>" },
 ]
-description = "A small example package"
+description = "Python SDK for AnquanSSL"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
@@ -18,5 +18,5 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/pypa/sampleproject"
-Issues = "https://github.com/pypa/sampleproject/issues"
+Homepage = "https://github.com/anquanssl/python-sdk"
+Issues = "https://github.com/anquanssl/python-sdk/issues"
