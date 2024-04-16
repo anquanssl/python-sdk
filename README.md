@@ -145,7 +145,7 @@ print()
 
 #### 检查DCV接口
 req = CertificateValidDCVRequest()
-req.service_id = "q1Mylj"
+req.service_id = certCreateResp.service_id
 resp = order.certificate_validate_dcv(req)
 print("ValidDCV", resp)
 print()
@@ -153,7 +153,7 @@ print()
 
 #### 证书退款
 req = CertificateRefundRequest()
-req.service_id = "q1Mylj"
+req.service_id = certCreateResp.service_id
 resp = order.certificate_refund(req)
 print("Refund", resp)
 print()
