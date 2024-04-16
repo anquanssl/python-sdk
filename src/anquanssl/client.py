@@ -34,8 +34,9 @@ def sign(base_string, access_key_secret):
 
 class Client:
     def __init__(self, access_key_id, access_key_secret, api_origin: str = None, connect_timeout=5, read_timeout=15):
-        if api_origin is None:
-            self.api_origin = ORIGIN_API
+        self.api_origin = ORIGIN_API
+        if api_origin is not None:
+            self.api_origin = api_origin
         self.access_key_id = access_key_id
         self.access_key_secret = access_key_secret
         self.connect_timeout = connect_timeout
