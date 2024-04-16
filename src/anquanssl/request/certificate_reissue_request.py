@@ -1,6 +1,6 @@
 # 重签证书请求
 class CertificateReissueRequest(object):
-    quantum_id = "" # 必传,下单时返回的id
+    service_id = "" # 必传,下单时返回的id
     domain_dcv = {} # 必传
     csr = "" # 必传,客户上传的CSR
     renew = 0 # OV/EV必传,是否为续费订单
