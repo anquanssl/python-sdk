@@ -1,4 +1,5 @@
-# 重签证书请求
+# 证书重签接口
+# https://docs.pki.plus/docs/certificate/certificate-reissue
 class CertificateReissueRequest(object):
     service_id = "" # 必传,下单时返回的id
     domain_dcv = {} # 必传

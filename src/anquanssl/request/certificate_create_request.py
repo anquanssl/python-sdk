@@ -1,4 +1,6 @@
-# 购买证书请求
+# 证书下单接口
+# https://docs.pki.plus/docs/certificate/certificate-submit
+
 class CertificateCreateRequest(object):
     unique_id = "" # 必传,合作伙伴系统的证书id
     product_id = "" # 必传, /product/list 接口返回的 id
