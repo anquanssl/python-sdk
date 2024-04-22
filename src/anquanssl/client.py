@@ -41,7 +41,61 @@ class Client:
         self.access_key_secret = access_key_secret
         self.connect_timeout = connect_timeout
         self.read_timeout = read_timeout
-    
+
+    def encodeURIComponent(self, string):
+        map = {
+            " ": "+",
+            "\n": "%0A",
+            "!": "%21",
+            "\"": "%22",
+            "#": "%23",
+            "$": "%24",
+            "%": "%25",
+            "&": "%26",
+            "'": "%27",
+            "(": "%28",
+            ")": "%29",
+            "*": "%2A",
+            "+": "%2B",
+            ",": "%2C",
+            "/": "%2F",
+            ":": "%3A",
+            ";": "%3B",
+            "<": "%3C",
+            "=": "%3D",
+            ">": "%3E",
+            "?": "%3F",
+            "@": "%40",
+            "[": "%5B",
+            "\\": "%5C",
+            "]": "%5D",
+            "^": "%5E",
+            "`": "%60",
+            "{": "%7B",
+            "|": "%7C",
+            "}": "%7D",
+            "~": "%7E"
+        }
+        return ''.join(map.get(c, c) for c in string)
+
+    def http_build_query(self, params):
+        query = ''
+        for key, value in params.items():
+            if isinstance(value, dict):
+                nested_params = {f"{key}[{nested_key}]": nested_value for nested_key, nested_value in value.items()}
+                query += self.http_build_query(nested_params)
+            elif isinstance(value, list):
+                for i, val in enumerate(value):
+                    if isinstance(val, (dict, list)):
+                        query += self.http_build_query({f"{key}[{i}]": val})
+                    else:
+                        query += f'{self.encodeURIComponent(key)}[{i}]={self.encodeURIComponent(val)}&'
+            elif isinstance(value, int):
+                query += f'{self.encodeURIComponent(key)}={self.encodeURIComponent(str(value))}&'
+            else:
+                query += f'{self.encodeURIComponent(key)}={self.encodeURIComponent(value)}&'
+        return query.rstrip('&')
+
     def get(self, uri: str, query: dict = {}, body: dict = {}):
         return self.call("GET", uri, query, body)
 
@@ -65,12 +119,12 @@ class Client:
                 parameters.append(item)
         parameters.sort()
 
-        url = self.api_origin + uri + '?' + urlencode(query)
+        url = self.api_origin + uri + '?' + self.http_build_query(query)
         # print("=== call debug ===")
-        signature = sign(urlparse(url).path + '?' + urlencode(parameters), self.access_key_secret)
+        signature = sign(urlparse(url).path + '?' + self.http_build_query(parameters), self.access_key_secret)
         query.append(("sign", signature))
         query.sort()
-        url = self.api_origin + uri + '?' + urlencode(query)
+        url = self.api_origin + uri + '?' + self.http_build_query(query)
 
         response = requests.request(method, url, data=json.dumps(body), headers={"Content-Type": "application/json"})
         # print("url:", url)

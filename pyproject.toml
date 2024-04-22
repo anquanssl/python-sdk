@@ -6,7 +6,6 @@ build-backend = "setuptools.build_meta"
 name = "anquanssl"
 version = "0.0.1"
 authors = [
-  { name="jellnicy jin", email="<11457034+jellnicy@users.noreply.github.com>" },
 ]
 description = "Python SDK for AnquanSSL"
 readme = "README.md"
