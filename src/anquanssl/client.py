@@ -5,8 +5,7 @@ import hashlib
 import hmac
 import base64
 import json
-from urllib.parse import urlencode, urlparse
-
+from urllib.parse import quote, urlparse
 
 ORIGIN_API = "https://api.orion.pki.plus/api/v1"
 
@@ -42,7 +41,7 @@ class Client:
         self.connect_timeout = connect_timeout
         self.read_timeout = read_timeout
 
-    def encodeURIComponent(self, string):
+    def encodeURIComponent(string):
         map = {
             " ": "+",
             "\n": "%0A",
@@ -76,7 +75,13 @@ class Client:
             "}": "%7D",
             "~": "%7E"
         }
-        return ''.join(map.get(c, c) for c in string)
+        encoded_string = ''
+        for c in string:
+            if c in map:
+                encoded_string += map[c]
+            else:
+                encoded_string += quote(c)
+        return encoded_string
 
     def http_build_query(self, params):
         query = ''
