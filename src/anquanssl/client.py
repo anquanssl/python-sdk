@@ -41,7 +41,7 @@ class Client:
         self.connect_timeout = connect_timeout
         self.read_timeout = read_timeout
 
-    def encodeURIComponent(string):
+    def encodeURIComponent(self, string):
         map = {
             " ": "+",
             "\n": "%0A",
@@ -85,7 +85,7 @@ class Client:
 
     def http_build_query(self, params):
         query = ''
-        for key, value in params.items():
+        for key, value in params:
             if isinstance(value, dict):
                 nested_params = {f"{key}[{nested_key}]": nested_value for nested_key, nested_value in value.items()}
                 query += self.http_build_query(nested_params)
